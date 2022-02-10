@@ -355,6 +355,7 @@ macro(crosscompile_test tag)
       -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${toolchain_file}
       -DBUILD_SHARED_LIBS:BOOL=OFF
       -DBUILD_EXAMPLES:BOOL=OFF
+      -DPCL_INSTALL_PATH:BOOL=${install_prefix}
   )
   force_build(${proj})
 endmacro()
