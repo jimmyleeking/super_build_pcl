@@ -165,15 +165,15 @@ endmacro()
 #
 macro(fetch_boost)
  
-  set(boost_url http://192.168.1.124:11095/boost-cmake.zip)
+  #set(boost_url http://192.168.1.124:11095/boost-cmake.zip)
 
   ExternalProject_Add(
     boost-fetch
     SOURCE_DIR ${source_prefix}/boost
     URL ${boost_url}
     URL_MD5 ""
-    #GIT_REPOSITORY git://github.com/linuxfreakus/boost-cmake
-    #GIT_TAG origin/master
+    GIT_REPOSITORY git://github.com/linuxfreakus/boost-cmake
+    GIT_TAG origin/master
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -208,14 +208,14 @@ endmacro()
 # PCL fetch
 #
 macro(fetch_pcl)
-  set(pcl_url http://192.168.1.124:11095/pcl_v${PCL_TARGET_BUILD_VERSION}.zip)
+  #set(pcl_url http://192.168.1.124:11095/pcl_v${PCL_TARGET_BUILD_VERSION}.zip)
   ExternalProject_Add(
     pcl-fetch
     SOURCE_DIR ${source_prefix}/pcl
     URL ${pcl_url}
     URL_MD5 ""
-    #GIT_REPOSITORY git://github.com/PointCloudLibrary/pcl.git
-    #GIT_TAG pcl-1.11.1
+    GIT_REPOSITORY git://github.com/PointCloudLibrary/pcl.git
+    GIT_TAG pcl-${PCL_TARGET_BUILD_VERSION}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
