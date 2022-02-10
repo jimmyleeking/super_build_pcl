@@ -121,18 +121,29 @@ endmacro()
 # FLANN fetch
 #
 macro(fetch_flann)
-  set(flann_url http://192.168.1.124:11095/flann_1.9.1.zip)
-  ExternalProject_Add(
-    flann-fetch
-    SOURCE_DIR ${source_prefix}/flann
-    URL ${flann_url}
-    URL_MD5 ""
-    #GIT_REPOSITORY git://github.com/mariusmuja/flann
-    #GIT_TAG 1.9.1
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    INSTALL_COMMAND ""
-  )
+  if( SOURCE_CODE_BY_FILE )
+    set(flann_url http://192.168.1.124:11095/flann_1.9.1.zip)
+    ExternalProject_Add(
+      flann-fetch
+      SOURCE_DIR ${source_prefix}/flann
+      URL ${flann_url}
+      URL_MD5 ""
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+    )
+  else()
+    ExternalProject_Add(
+      flann-fetch
+      SOURCE_DIR ${source_prefix}/flann
+      GIT_REPOSITORY git://github.com/mariusmuja/flann
+      GIT_TAG 1.9.1
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+    )
+  endif()
+  
 endmacro()
 
 #
@@ -165,19 +176,29 @@ endmacro()
 #
 macro(fetch_boost)
  
-  #set(boost_url http://192.168.1.124:11095/boost-cmake.zip)
-
-  ExternalProject_Add(
-    boost-fetch
-    SOURCE_DIR ${source_prefix}/boost
-    URL ${boost_url}
-    URL_MD5 ""
-    GIT_REPOSITORY git://github.com/linuxfreakus/boost-cmake
-    GIT_TAG origin/master
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    INSTALL_COMMAND ""
-  )
+  if( SOURCE_CODE_BY_FILE )
+    set(boost_url http://192.168.1.124:11095/boost-cmake.zip)
+    ExternalProject_Add(
+      boost-fetch
+      SOURCE_DIR ${source_prefix}/boost
+      URL ${boost_url}
+      URL_MD5 ""
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+    )
+  else()
+    ExternalProject_Add(
+      boost-fetch
+      SOURCE_DIR ${source_prefix}/boost
+      GIT_REPOSITORY git://github.com/linuxfreakus/boost-cmake
+      GIT_TAG origin/master
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+    )
+  endif()
+  
 endmacro()
 
 #
@@ -208,20 +229,33 @@ endmacro()
 # PCL fetch
 #
 macro(fetch_pcl)
-  #set(pcl_url http://192.168.1.124:11095/pcl_v${PCL_TARGET_BUILD_VERSION}.zip)
-  ExternalProject_Add(
-    pcl-fetch
-    SOURCE_DIR ${source_prefix}/pcl
-    URL ${pcl_url}
-    URL_MD5 ""
-    GIT_REPOSITORY git://github.com/PointCloudLibrary/pcl.git
-    GIT_TAG pcl-${PCL_TARGET_BUILD_VERSION}
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND ""
-    INSTALL_COMMAND ""
-    PATCH_COMMAND 
-      ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/patches/FindGlew.cmake ${source_prefix}/pcl/cmake/Modules/FindGLEW.cmake
-  )
+  if( SOURCE_CODE_BY_FILE )
+    set(pcl_url http://192.168.1.124:11095/pcl_v${PCL_TARGET_BUILD_VERSION}.zip)
+    ExternalProject_Add(
+      pcl-fetch
+      SOURCE_DIR ${source_prefix}/pcl
+      URL ${pcl_url}
+      URL_MD5 ""
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+      PATCH_COMMAND 
+        ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/patches/FindGlew.cmake ${source_prefix}/pcl/cmake/Modules/FindGLEW.cmake
+    )
+  else()
+    ExternalProject_Add(
+      pcl-fetch
+      SOURCE_DIR ${source_prefix}/pcl
+      GIT_REPOSITORY git://github.com/PointCloudLibrary/pcl.git
+      GIT_TAG pcl-${PCL_TARGET_BUILD_VERSION}
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+      PATCH_COMMAND 
+        ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/patches/FindGlew.cmake ${source_prefix}/pcl/cmake/Modules/FindGLEW.cmake
+    )
+  endif()
+ 
 endmacro()
 
 #
