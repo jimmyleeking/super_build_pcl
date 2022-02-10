@@ -121,11 +121,14 @@ endmacro()
 # FLANN fetch
 #
 macro(fetch_flann)
+  set(flann_url http://192.168.1.124:11095/flann_1.9.1.zip)
   ExternalProject_Add(
     flann-fetch
     SOURCE_DIR ${source_prefix}/flann
-    GIT_REPOSITORY git://github.com/mariusmuja/flann
-    GIT_TAG 1.9.1
+    URL ${flann_url}
+    URL_MD5 ""
+    #GIT_REPOSITORY git://github.com/mariusmuja/flann
+    #GIT_TAG 1.9.1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -162,7 +165,7 @@ endmacro()
 #
 macro(fetch_boost)
  
-  set(boost_url http://47.242.25.153:10086/boost-cmake.zip)
+  set(boost_url http://192.168.1.124:11095/boost-cmake.zip)
 
   ExternalProject_Add(
     boost-fetch
@@ -205,12 +208,14 @@ endmacro()
 # PCL fetch
 #
 macro(fetch_pcl)
-  set(pcl_url http://47.242.25.153:10086/pcl.zip)
+  set(pcl_url http://192.168.1.124:11095/pcl_v${PCL_TARGET_BUILD_VERSION}.zip)
   ExternalProject_Add(
     pcl-fetch
     SOURCE_DIR ${source_prefix}/pcl
     URL ${pcl_url}
     URL_MD5 ""
+    #GIT_REPOSITORY git://github.com/PointCloudLibrary/pcl.git
+    #GIT_TAG pcl-1.11.1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -226,7 +231,7 @@ macro(crosscompile_pcl tag)
   set(proj pcl-${tag})
   get_toolchain_file(${tag})
   get_try_run_results_file(${proj})
-
+ 
   # copy the toolchain file and append the boost install dir to CMAKE_FIND_ROOT_PATH
   set(original_toolchain_file ${toolchain_file})
   get_filename_component(toolchain_file ${original_toolchain_file} NAME)
@@ -234,7 +239,7 @@ macro(crosscompile_pcl tag)
   configure_file(${original_toolchain_file} ${toolchain_file} COPYONLY)
   file(APPEND ${toolchain_file}
     "\nlist(APPEND CMAKE_FIND_ROOT_PATH ${install_prefix}/boost-${tag})\n")
-
+  
   ExternalProject_Add(
     ${proj}
     SOURCE_DIR ${source_prefix}/pcl
@@ -247,11 +252,17 @@ macro(crosscompile_pcl tag)
       -DBUILD_SHARED_LIBS:BOOL=OFF
       -DPCL_SHARED_LIBS:BOOL=OFF
       -DBUILD_visualization:BOOL=OFF
+      -DBUILD_segmentation:BOOL=OFF
+      -DBUILD_registration:BOOL=OFF    .
       -DBUILD_examples:BOOL=OFF
       -DBUILD_tools:BOOL=OFF
       -DBUILD_apps:BOOL=OFF
       -DWITH_PCAP:BOOL=OFF
+      -DWITH_LIBUSB:BOOL=OFF
       -DWITH_QT:BOOL=OFF
+      -DWITH_QHULL:BOOL=OFF
+      -DWITH_PNG:BOOL=OFF
+      -DWITH_VTK:BOOL=OFF
       -DEIGEN_INCLUDE_DIR=${install_prefix}/eigen
       -DFLANN_INCLUDE_DIR=${install_prefix}/flann-${tag}/include
       -DFLANN_LIBRARY=${install_prefix}/flann-${tag}/lib/libflann_cpp_s.a
