@@ -1,0 +1,6 @@
+#ifndef HELLLIBRARY_LIBRARY_H
+#define HELLLIBRARY_LIBRARY_H
+
+void hello();
+
+#endif //HELLLIBRARY_LIBRARY_H

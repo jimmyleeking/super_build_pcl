@@ -338,3 +338,23 @@ macro( find_host_program )
  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
  set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
 endmacro()
+
+
+# build my own 
+
+macro(crosscompile_test tag)
+  set(proj test-${tag})
+  get_toolchain_file(${tag})
+  ExternalProject_Add(
+    ${proj}
+    SOURCE_DIR ${source_prefix}/test
+    DOWNLOAD_COMMAND ""
+    CMAKE_ARGS
+      -DCMAKE_INSTALL_PREFIX:PATH=${install_prefix}/${proj}
+      -DCMAKE_BUILD_TYPE:STRING=${build_type}
+      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${toolchain_file}
+      -DBUILD_SHARED_LIBS:BOOL=OFF
+      -DBUILD_EXAMPLES:BOOL=OFF
+  )
+  force_build(${proj})
+endmacro()
